@@ -137,18 +137,34 @@ console.log(avg);
 //
 // 2. Log the variable
 // 3. Log the number of products by brands
-
-
+let brand_dic = {};
+marketplace.forEach(function(product){
+  if(product.brand  in product == false){
+    brand_dic[product.brand] = marketplace.filter(k => k.brand == product.brand);
+  }
+});
+console.log(brand_dic);
 
 // 🎯 TODO: Sort by price for each brand
 // 1. For each brand, sort the products by price, from highest to lowest
 // 2. Log the sort
-
+for(var key of Object.keys(brand_dic)){
+  brand_dic[key].sort(function(a,b){
+    {return a.price - b.price}
+  });
+}
+console.log(brand_dic);
 
 // 🎯 TODO: Sort by date for each brand
 // 1. For each brand, sort the products by date, from old to recent
 // 2. Log the sort
 
+/*for(var key of Object.keys(brand_dic)){
+  brand_dic[key].sort(function(a,b){
+    return new Date(a.date) - new Date(b.date);
+  });
+}
+console.log(brand_dic); */
 
 
 
@@ -163,7 +179,10 @@ console.log(avg);
 // 🎯 TODO: Compute the p90 price value
 // 1. Compute the p90 price value of each brand
 // The p90 value (90th percentile) is the lower value expected to be exceeded in 90% of the products
-
+for(var key of Object.keys(brand_dic)){
+  let a= Math.round(0.9 * brand_dic[key].length);
+  console.log("the p90 for "+key +" is " +brand_dic[key][a].price);
+}
 
 
 
@@ -239,21 +258,53 @@ const COTELE_PARIS = [
 // 🎯 TODO: New released products
 // // 1. Log if we have new products only (true or false)
 // // A new product is a product `released` less than 2 weeks.
+let today = new Date().toISOString().slice(0, 10)
+today = new Date(today);
+let dates= true;
+COTELE_PARIS.forEach(function(product){
+  let diff = Math.abs(today - new Date(product.released))
+  let days = Math.ceil(diff/(1000 * 60 * 60 * 24));
+  console.log(days);
+  if(days > 14){
+    dates = false;
+  }
+}); 
+console.log("The fact that there are only new products is: "+dates);
 
 
 // 🎯 TODO: Reasonable price
 // // 1. Log if coteleparis is a reasonable price shop (true or false)
 // // A reasonable price if all the products are less than 100€
-
+let reasonable = true;
+COTELE_PARIS.forEach(function(product){
+  if(product.price > 100){
+    reasonable = false;
+  }
+}); 
+console.log("The fact that this is a reasonable price shop is: "+reasonable);
 
 // 🎯 TODO: Find a specific product
 // 1. Find the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the product
 
+COTELE_PARIS.forEach(function(product){
+  if(product.uuid == 'b56c6d88-749a-5b4c-b571-e5b5c6483131'){
+    console.log(product);
+  }
+}); 
+
 
 // 🎯 TODO: Delete a specific product
 // 1. Delete the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the new list of product
+COTELE_PARIS.forEach(function(product){
+  if(product.uuid == 'b56c6d88-749a-5b4c-b571-e5b5c6483131'){
+    let idx = COTELE_PARIS.indexOf(product);
+    console.log(idx);
+    COTELE_PARIS.splice(idx,1);
+  }
+}); 
+console.log(COTELE_PARIS);
 
 // 🎯 TODO: Save the favorite product
 let blueJacket = {
@@ -269,6 +320,11 @@ jacket.favorite = true;
 
 // 1. Log `blueJacket` and `jacket` variables
 // 2. What do you notice?
+console.log(blueJacket);
+console.log(jacket);
+//they are the same, it's a way to copy a variable.
+//When you modify one, it modifies the other.
+
 
 blueJacket = {
   'link': 'https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi',
