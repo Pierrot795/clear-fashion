@@ -333,7 +333,9 @@ blueJacket = {
 };
 
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
-
+jacket = Object.assign({},blueJacket,{favorite:true}); //to an empty target add the intersection of the properties of both sources
+console.log(blueJacket);
+console.log(jacket);
 
 
 
