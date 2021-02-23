@@ -5,7 +5,6 @@
 let currentProducts = [];
 let currentPagination = {};
 let sort;
-let chosenbrand;
 let brands = [];
 
 // inititiqte selectors
@@ -63,7 +62,6 @@ const renderProducts = products => {
         <span>${product.brand}</span>
         <a href="${product.link}">${product.name}</a>
         <span>${product.price}</span>
-        <span>${product.released}</span>
       </div>
     `;
     })
@@ -96,14 +94,7 @@ const renderBrands = products => {
       brands.push(product.brand);
     }
     });
-    let options = `<option value=default>default</option>`;
-    const volet = brands.map(brand => {
-      return  `<option value=${brand}>${brand}</option>`
-    }).join('');
-    options +=volet;
-    selectBrands.innerHTML = options;
-    };
-
+  };
 
 
 /**
@@ -117,10 +108,8 @@ const renderIndicators = pagination => {
 };
 
 const render = (products, pagination) => {
-
-  sorting(sort);
-  renderBrands(products);
   renderProducts(products);
+  sorting(sort);
   renderPagination(pagination);
   renderIndicators(pagination);
 };
@@ -139,26 +128,15 @@ const sortbypricedesc = (currentProducts) => {
 
 const sortbydateasc = (currentProducts) =>  {
   currentProducts.sort(function(a,b){
-    return new Date(b.released) - new Date(a.released);
+    return new Date(b.date) - new Date(a.date);
   });
 }
 
 const sortbydatedesc = (currentProducts) =>  {
   currentProducts.sort(function(a,b){
-    return new Date(a.released) - new Date(b.released);
+    return new Date(a.date) - new Date(b.date);
   });
 }
-
-const byBrand = (currentProducts, chosenbrand) => {
-  let productofabrand = []
-  currentProducts.forEach(function(product){
-    if(product.brand == chosenbrand){
-      productofabrand.push(product);
-    }
-  });
-  return productofabrand
-}
-
 const sorting = (sort) => {
   switch(sort){
     case "price-asc":
@@ -174,8 +152,6 @@ const sorting = (sort) => {
 
     case "date-desc":
       sortbydatedesc(currentProducts);
-      break;
-    default:
       break;
   }
 
@@ -204,13 +180,6 @@ selectSort.addEventListener('change', event => {
  sort = event.target.value;
  render(currentProducts,currentPagination);
 });
-
-selectBrands.addEventListener('change', event => {
-  chosenbrand = event.target.value;
-  let prod = byBrand(currentProducts,chosenbrand);
-  render(prod,currentPagination);
-
-})
 
 document.addEventListener('DOMContentLoaded', () =>
   fetchProducts() //retourne infos de l'api, result et meta
