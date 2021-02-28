@@ -6,6 +6,8 @@ let currentProducts = [];
 let currentPagination = {};
 let sort;
 let chosenbrand;
+let prod;
+let a;
 let brands = [];
 
 // inititiqte selectors
@@ -14,7 +16,11 @@ const selectPage = document.querySelector('#page-select'); //document pointe sur
 const selectSort = document.querySelector('#sort-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
+const spanNbProductsDisp = document.querySelector('#nbProductsdisp');
 const selectBrands = document.querySelector('#brand-select');
+const p50 = document.querySelector('#p50');
+const p90 = document.querySelector('#p90');
+const p95 = document.querySelector('#p95');
 /**
  * Set global value
  * @param {Array} result - products to display //param permits to describe a parameter which will be used in a function. like an assertion to a type for example
@@ -104,25 +110,38 @@ const renderBrands = products => {
     selectBrands.innerHTML = options;
     };
 
-
+  const percentileIndex = (products, percentile) =>
+    Math.floor((products.length - 1) * percentile / 100) + 1;
 
 /**
  * Render page selector
  * @param  {Object} pagination
  */
-const renderIndicators = pagination => {
+const renderIndicators = (pagination, products) => {
   const {count} = pagination;
-
+  const {pageSize} = pagination;
   spanNbProducts.innerHTML = count;
+  spanNbProductsDisp.innerHTML = pageSize;
+
+  let sortedprod = clone(products);
+  sortbypriceasc(sortedprod);
+  p50.innerHTML = sortedprod[percentileIndex(sortedprod,50)].price;
+  p90.innerHTML = sortedprod[percentileIndex(sortedprod,90)].price;
+  p95.innerHTML = sortedprod[percentileIndex(sortedprod,95)].price;
+
+
 };
-
 const render = (products, pagination) => {
+  console.log(pagination);
+  if(chosenbrand){
+    products = byBrand(currentProducts,chosenbrand);
 
+  }
   sorting(sort);
   renderBrands(products);
   renderProducts(products);
   renderPagination(pagination);
-  renderIndicators(pagination);
+  renderIndicators(pagination, products);
 };
 
 
@@ -158,6 +177,16 @@ const byBrand = (currentProducts, chosenbrand) => {
   });
   return productofabrand
 }
+
+const clone = obj => {
+  try{
+    var copy = JSON.parse(JSON.stringify(obj));
+  } 
+  catch(e){
+    alert('Use a modern navigator please');
+  }
+  return copy;
+};
 
 const sorting = (sort) => {
   switch(sort){
@@ -207,7 +236,7 @@ selectSort.addEventListener('change', event => {
 
 selectBrands.addEventListener('change', event => {
   chosenbrand = event.target.value;
-  let prod = byBrand(currentProducts,chosenbrand);
+  //prod = byBrand(currentProducts,chosenbrand);
   render(prod,currentPagination);
 
 })
