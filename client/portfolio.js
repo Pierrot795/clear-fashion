@@ -8,7 +8,7 @@ let sort;
 let chosenbrand;
 let prod;
 let a;
-let brands = [];
+let brands = ['default'];
 
 // inititiqte selectors
 const selectShow = document.querySelector('#show-select'); //des que changement, change le nb de produits affichés sur la page
@@ -96,18 +96,24 @@ const renderPagination = pagination => {
   selectPage.selectedIndex = currentPage - 1;
 };
 
-const renderBrands = products => {
+const renderBrands = (products,chosenbrand) => {
+  let index = 0;
   products.forEach(function(product){
     if(brands.includes(product.brand) == false){
       brands.push(product.brand);
     }
     });
-    let options = `<option value=default>default</option>`;
-    const volet = brands.map(brand => {
-      return  `<option value=${brand}>${brand}</option>`
-    }).join('');
-    options +=volet;
-    selectBrands.innerHTML = options;
+    console.log("brands="+brands);
+
+    selectBrands.innerHTML = Array.from( //get each particular element in an array and apply a function on it.
+      brands, name => `<option value="${name}">${name}</option>`);
+      for (let i = 0; i < brands.length;i++ ){
+        if(brands[i] == chosenbrand){
+          index = i;
+        }
+      }
+      selectBrands.selectedIndex = index;
+
     };
 
   const percentileIndex = (products, percentile) =>
@@ -132,13 +138,12 @@ const renderIndicators = (pagination, products) => {
 
 };
 const render = (products, pagination) => {
-  console.log(pagination);
   if(chosenbrand){
     products = byBrand(currentProducts,chosenbrand);
 
   }
   sorting(sort);
-  renderBrands(products);
+  renderBrands(products,chosenbrand);
   renderProducts(products);
   renderPagination(pagination);
   renderIndicators(pagination, products);
@@ -237,7 +242,7 @@ selectSort.addEventListener('change', event => {
 selectBrands.addEventListener('change', event => {
   chosenbrand = event.target.value;
   //prod = byBrand(currentProducts,chosenbrand);
-  render(prod,currentPagination);
+  render(currentProducts,currentPagination);
 
 })
 
