@@ -174,13 +174,20 @@ const sortbydatedesc = (currentProducts) =>  {
 }
 
 const byBrand = (currentProducts, chosenbrand) => {
-  let productofabrand = []
-  currentProducts.forEach(function(product){
-    if(product.brand == chosenbrand){
-      productofabrand.push(product);
-    }
-  });
-  return productofabrand
+  if(chosenbrand != 'default'){
+    let productofabrand = []
+    currentProducts.forEach(function(product){
+      if(product.brand == chosenbrand){
+        productofabrand.push(product);
+      }
+    });
+    return productofabrand
+
+  }
+  else{
+    return currentProducts
+  }
+
 }
 
 const clone = obj => {
