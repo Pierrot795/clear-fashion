@@ -7,13 +7,14 @@ let prodadresseparis;
 
 const MONGODB_URI = 'mongodb+srv://PierreC:PierrotMoNgo!15@cluster0.w59pl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const MONGODB_DB_NAME = 'clearfashion';
+const client = new MongoClient(MONGODB_URI);
 
 
 
 
 
 async function insertion() {
-const client = await MongoClient.connect(MONGODB_URI, {'useNewUrlParser': true});
+await client.connect();
 const db =  client.db(MONGODB_DB_NAME)
 const collection = db.collection('products');
 const result = collection.insertMany(prodadresseparis); 
@@ -29,7 +30,7 @@ async function addproducts(){
 
 async function querydata(){
     try {
-        const client = await MongoClient.connect(MONGODB_URI, {'useNewUrlParser': true});
+        await client.connect();
         const db =  client.db(MONGODB_DB_NAME)
         const collection = db.collection('products');
         // Query for a movie that has the title 'Back to the Future'
