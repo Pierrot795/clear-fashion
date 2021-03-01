@@ -125,7 +125,7 @@ const renderBrands = (products,chosenbrand) => {
  */
 const renderIndicators = (pagination, products) => {
   const {count} = pagination;
-  const {pageSize} = pagination;
+  const {pageSize} = products.length;
   spanNbProducts.innerHTML = count;
   spanNbProductsDisp.innerHTML = pageSize;
 
@@ -142,7 +142,7 @@ const render = (products, pagination) => {
     products = byBrand(currentProducts,chosenbrand);
 
   }
-  sorting(sort);
+  sorting(sort,products);
   renderBrands(products,chosenbrand);
   renderProducts(products);
   renderPagination(pagination);
@@ -150,19 +150,19 @@ const render = (products, pagination) => {
 };
 
 
-const sortbypriceasc = (currentProducts) => {
-  currentProducts.sort(function(a,b){
+const sortbypriceasc = (products) => {
+  products.sort(function(a,b){
     {return a.price - b.price}
   });
 };
-const sortbypricedesc = (currentProducts) => {
-  currentProducts.sort(function(a,b){
+const sortbypricedesc = (products) => {
+  products.sort(function(a,b){
     {return b.price - a.price}
   });
 };
 
-const sortbydateasc = (currentProducts) =>  {
-  currentProducts.sort(function(a,b){
+const sortbydateasc = (products) =>  {
+  products.sort(function(a,b){
     return new Date(b.released) - new Date(a.released);
   });
 }
@@ -200,21 +200,21 @@ const clone = obj => {
   return copy;
 };
 
-const sorting = (sort) => {
+const sorting = (sort, products) => {
   switch(sort){
     case "price-asc":
-      sortbypriceasc(currentProducts);
+      sortbypriceasc(products);
       break;
     case "price-desc":
-      sortbypricedesc(currentProducts);
+      sortbypricedesc(products);
       break;
     
     case "date-asc":
-      sortbydateasc(currentProducts);
+      sortbydateasc(products);
       break;
 
     case "date-desc":
-      sortbydatedesc(currentProducts);
+      sortbydatedesc(products);
       break;
     default:
       break;
