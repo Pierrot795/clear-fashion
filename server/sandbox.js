@@ -12,12 +12,14 @@ async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men',brand) {
 
     const products = await brand.scrape(eshop); //stocke le resultat du scraping sur la page definie par le lien
     //dedicatedbrand est un module, et scrape une de ses fonctions
-    console.log(products);
-    console.log('done');
+    return products
+    //console.log(products);
+    //console.log('done');
   } catch (e) {
     console.log("error");
     console.error(e);
   }
+
 }
 
 
@@ -53,5 +55,6 @@ async function mudjeansprod(eshop = 'https://mudjeans.eu/'){
 const [,, eshop] = process.argv;
 //retrieveurls();
 //sandbox(eshop);
-sandbox('https://adresse.paris/630-toute-la-collection?id_category=630&n=109',adressebrand);
+module.exports = {sandbox,retrieveurls};
+
 
