@@ -3,31 +3,42 @@ const axios = require('axios'); //module de dependances (dans package.json = mod
 const cheerio = require('cheerio');
 //fait pour serveur, basé sur jquery. Fournit une api/librairie pour parcourir et manipuler des données
 //interprete du code html mais coté serveur (normalement que le navigateur peut) et permet de le manipuler
+const {'v5': uuidv5} = require('uuid');
 
 /**
  * Parse webpage e-shop
  * @param  {String} data - html response
  * @return {Array} products
  */
-const parse = data => {
-  const $ = cheerio.load(data); // on donne le html pour qu'il puisse etre manipulé par nodejs
+ const parse = data => {
+  const $ = cheerio.load(data);
 
-  return $('.productList-container .productList') //demander de recup ensemble des elements du dom pointant sur ce selecteur
-    .map((i, element) => { //donc les produits sur la page qu'on scrape. On les parcourt un à un grace à map
-      const name = $(element) //sur l'element/produit courant, applique les fonctions suivantes pour avoir le nom du produit
-        .find('.productList-title')
-        .text()
-        .trim()
-        .replace(/\s/g, ' ');
-      const price = parseInt( //meme principe pour le prix
-        $(element)
-          .find('.productList-price')
+  return $('.productList-container .productList')
+    .map((i, element) => {
+      const link = `https://www.dedicatedbrand.com${$(element)
+        .find('.productList-link')
+        .attr('href')}`;
+
+      return {
+        link,
+        'brand': 'dedicated',
+        'price': parseInt(
+          $(element)
+            .find('.productList-price')
+            .text()
+        ),
+        'name': $(element)
+          .find('.productList-title')
           .text()
-      );
-
-      return {name, price}; //on retourne le prix et le nom en un objet à 2 clés
+          .trim()
+          .replace(/\s/g, ' '),
+        'photo': $(element)
+          .find('.productList-image img')
+          .attr('src'),
+        '_id': uuidv5(link, uuidv5.URL)
+      };
     })
-    .get(); //transforme la liste wrappée en collection cheerio creee par .map en array
+    .get();
 };
 //$ permet de pointer vers des éléments dans l'html en les passant en parametre
 

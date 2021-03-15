@@ -34,7 +34,7 @@ async function querydata(){
         const db =  client.db(MONGODB_DB_NAME)
         const collection = db.collection('products');
         // Query for a movie that has the title 'Back to the Future'
-        const query = { name: 'Manteau Sorbonne' };
+        const query = { price: 129 };
         const result = await collection.findOne(query);
         console.log(result);
       } finally {
