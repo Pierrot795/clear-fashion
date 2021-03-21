@@ -60,6 +60,21 @@ async function querydata(query){
       }
     }
 
+async function addDate(){
+  try {
+    const db = await getDB()
+    const collection = db.collection('products');
+    const result = await collection.find().toArray();
+    d
+    return result
+  } 
+  catch(error){
+      console.error('Your query cannot be processed',error);
+      return null;
+  }
+
+}
+
 async function close(){
   try{
     await client.close()

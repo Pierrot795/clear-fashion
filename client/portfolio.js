@@ -40,7 +40,7 @@ const setCurrentProducts = ({result, meta}) => { //params:la data du body de l'a
 const fetchProducts = async (page = 1, size = 12) => { //appel d'API
   try {
     const response = await fetch(
-      `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
+      `https://clearfashion.vercel.app/products?page=${page}&size=${size}`
     );
     const body = await response.json(); //decode la reponse pour avoir un objet JSON
 
@@ -69,7 +69,6 @@ const renderProducts = products => {
         <span>${product.brand}</span>
         <a href="${product.link}">${product.name}</a>
         <span>${product.price}</span>
-        <span>${product.released}</span>
       </div>
     `;
     })

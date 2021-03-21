@@ -13,9 +13,32 @@ app.use(cors());
 app.use(helmet());
 
 app.options('*', cors());
-
 app.get('/', (request, response) => {
-  response.send({'a': true});
+  response.send({"ack":true})
+});
+
+app.get('/products', async (req, res) => {
+  //response.send({'a': true});
+  let page = parseInt(req.query.page);
+  let size = parseInt(req.query.size);
+  let start = (size*(page-1));
+  console.log("start= "+start);
+  console.log("end=" +start + size);
+  let prod = []
+  let counter = 0;
+  const result = await querydata()
+
+  for(i=start;i<start+size;i++){
+      if(result[i] != null){
+        console.log(i+' '+result[i].price)
+        prod.push(result[i])
+        counter++;
+
+      }
+
+    }
+  console.log(counter);
+  res.send({"success":true,"data":{"result":prod,"meta":{"currentPage":page,"pageCount":Math.round(result.length/size),"pageSize":size,"count":result.length}}});
 });
 
 app.get('/products/search', async (req, res) => {
