@@ -55,6 +55,26 @@ const fetchProducts = async (page = 1, size = 12) => { //appel d'API
   }
 };
 
+function stringDate(dateObj){
+  dateObj = new Date(dateObj)
+  console.log(dateObj)
+  let month = dateObj.getUTCMonth() + 1; 
+  let day = dateObj.getUTCDate();
+  let year = dateObj.getUTCFullYear();
+  let newdate = day + "/" + month + "/" + year;
+  return newdate
+};
+
+function rendercurrentDate(){
+  let doc = document.getElementById("currentDate")
+  let today = new Date();
+  console.log(today);
+  let day = today.getUTCDate();
+  let month = today.getUTCMonth() + 1;
+  let year = today.getUTCFullYear();
+  today = day + '/' + month + '/' + year;
+  doc.innerText = today;
+}
 /**
  * Render list of products
  * @param  {Array} products
@@ -68,7 +88,8 @@ const renderProducts = products => {
       <div class="product" id=${product.uuid}>
         <span>${product.brand}</span>
         <a href="${product.link}">${product.name}</a>
-        <span>${product.price}</span>
+        <span>${product.price}€ </span>
+        <span>${stringDate(product.date)}</span>
       </div>
     `;
     })
@@ -124,9 +145,9 @@ const renderBrands = (products,chosenbrand) => {
  */
 const renderIndicators = (pagination, products) => {
   const {count} = pagination;
-  const {pageSize} = products.length;
+  //const {pageSize} = products.length;
   spanNbProducts.innerHTML = count;
-  spanNbProductsDisp.innerHTML = pageSize;
+  spanNbProductsDisp.innerHTML = products.length;
 
   let sortedprod = clone(products);
   sortbypriceasc(sortedprod);
@@ -136,7 +157,10 @@ const renderIndicators = (pagination, products) => {
 
 
 };
+
+
 const render = (products, pagination) => {
+  rendercurrentDate()
   if(chosenbrand){
     products = byBrand(currentProducts,chosenbrand);
 
@@ -162,13 +186,13 @@ const sortbypricedesc = (products) => {
 
 const sortbydateasc = (products) =>  {
   products.sort(function(a,b){
-    return new Date(b.released) - new Date(a.released);
+    return new Date(b.date) - new Date(a.date);
   });
 }
 
 const sortbydatedesc = (currentProducts) =>  {
   currentProducts.sort(function(a,b){
-    return new Date(a.released) - new Date(b.released);
+    return new Date(a.date) - new Date(b.date);
   });
 }
 

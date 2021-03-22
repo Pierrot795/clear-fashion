@@ -43,6 +43,13 @@ async function sandbox () {
   
       products.push(results.flat());
       products = products.flat();
+
+      products.forEach(element => {
+        element["date"] = getRandomDate(new Date(2020,11,10),new Date(2021,03,21));
+        
+      });
+
+      console.log("YES"+products[1].date)
   
       console.log('\n');
   
@@ -68,5 +75,11 @@ async function sandbox () {
       console.error(e);
     }
   }
-  
+
+  function getRandomDate(from,to) {
+    from = from.getTime();
+    to = to.getTime();
+    return new Date(from+ Math.random() * (to - from));
+}
+  //console.log(getRandomDate(new Date(1994,11,10),new Date(1995,11,10)))
   sandbox();

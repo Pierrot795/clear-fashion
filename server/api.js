@@ -26,7 +26,7 @@ app.get('/products', async (req, res) => {
   console.log("end=" +start + size);
   let prod = []
   let counter = 0;
-  const result = await querydata()
+  const result = await querydata({"price":{$ne:Number("Nan")}})
 
   for(i=start;i<start+size;i++){
       if(result[i] != null){
