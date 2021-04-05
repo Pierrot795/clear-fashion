@@ -3,36 +3,36 @@ Here is the link of my version of Clear Fashion : https://clientfashionclient.ve
 Organisation of this repository:
 
 In the client side you will find:
-- index.html: entry point of the website, describing what will be printed to your screen. It calls two files: portfolio.js and style.css.
+*index.html: entry point of the website, describing what will be printed to your screen. It calls two files: portfolio.js and style.css.
 
-- style.css: defines the visual appearance of the different HTML elements (size, color, background,positioning...)
+*style.css: defines the visual appearance of the different HTML elements (size, color, background,positioning...)
 
-- portfolio.js: Permits to call our API to get products and define how they will be rendered in the HTML page. Functionalities to manipulate the products,sort 
+*portfolio.js: Permits to call our API to get products and define how they will be rendered in the HTML page. Functionalities to manipulate the products,sort 
 them by price and date, and filter them by products have been added. Here JavaScript permit us to manipulate dynamic data into the HTML page.
 
 
 In the server side you will find:
--a source folder where we have adressebrand.js,dedicatedbrand.js and loom.js.
+*a source folder where we have adressebrand.js,dedicatedbrand.js and loom.js.
 In each of these file is defined a way to scrap products from a particular brand website.
 Axios permits to make http requests on an URL to be able to than parse the data from the corresponding page using Cheerio.
 For each product we find and store its URL, brand,price,name and the URL of one of its photos.
 
--a db folder where we have an index.js. In this file we use the MongoDB Node.js driver to define a connection to MongoDB Atlas.
+*a db folder where we have an index.js. In this file we use the MongoDB Node.js driver to define a connection to MongoDB Atlas.
 Here are defined the functions to connect to our database, but also to insert data in a collection and query data.
 
--a sandbox-db.js file where products from dedicated,adresseparis and loom are scraped, using the methods defined in the "sources" files.
+*a sandbox-db.js file where products from dedicated,adresseparis and loom are scraped, using the methods defined in the "sources" files.
 All these products are then inserted into a MongoDB collection after having been shuffled, to be able to have products of different brands on the same pages on the
 front-end.
 We also add to them a random past date to be able to sort products by date.
 The collection have been created just by calling "node sandbox-db.js" in the client part.
 
--an api.js file where we create a REST API with Express which will permit to access to the products stored in MongoDB,
+*an api.js file where we create a REST API with Express which will permit to access to the products stored in MongoDB,
 and make them processible in portfolio.js where the API is called.
 Here is the url pattern of the API: https://clearfashion.vercel.app/products?page=${page}&size=${size}.
 At each call, products will be split into pages, and the number of products in a page will be defined by size.
 For example if page = 2 and size = 12, we will have displayed the products from the 12th to the 24th in the database.
 
--a vercel.json file to make our endpoint working with vercel.
+*a vercel.json file to make our endpoint working with vercel.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # 👕 Clear Fashion
