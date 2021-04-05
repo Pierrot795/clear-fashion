@@ -86,11 +86,13 @@ const renderProducts = products => {
     .map(product => {
       return `
       <div class="product" id=${product.uuid}>
-        <span class="brand-text">${product.brand}</span>
-        <a class="shirt_text"  href="${product.link}" target="_blank">${product.name}</a>
-        <img class="tshirt_img" src = ${product.photo}>
-        <span class="price_text">${product.price}€ </span>
+      <img class="tshirt_img" src = ${product.photo}>
+        <div class="product-text">
+        <h3><a class="shirt_text"  href="${product.link}" target="_blank">${product.name}</a></h3>
+        <p class="price_text">${product.price}€ </p>
+        <span class="brand-text">by ${product.brand}</span>
         <span>${stringDate(product.date)}</span>
+        </div>
       </div>
     `;
     })

@@ -6,14 +6,9 @@ const {close,insertion,querydata} = require('./db');
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
-  // While there remain elements to shuffle...
   while (0 !== currentIndex) {
-
-    // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-
-    // And swap it with the current element.
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
@@ -70,7 +65,7 @@ async function sandbox () {
       products = products.flat();
 
       products.forEach(element => {
-        element["date"] = getRandomDate(new Date(2020,11,10),new Date(2021,03,21));
+        element["date"] = getRandomDate(new Date(2020,11,10),new Date(2021,03,02));
         
       });
 
