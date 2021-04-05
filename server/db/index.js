@@ -31,7 +31,7 @@ async function getDB(){
 async function insertion(products) {
     try {
         const db = await getDB();
-        const collection = db.collection('products');
+        const collection = db.collection('products2');
         // More details
         // https://docs.mongodb.com/manual/reference/method/db.collection.insertMany/#insert-several-document-specifying-an-id-field
         const result = await collection.insertMany(products, {'ordered': false});
@@ -50,7 +50,7 @@ async function insertion(products) {
 async function querydata(query){
     try {
         const db = await getDB()
-        const collection = db.collection('products');
+        const collection = db.collection('products2');
         const result = await collection.find(query).toArray();
         return result
       } 
@@ -63,7 +63,7 @@ async function querydata(query){
 async function addDate(){
   try {
     const db = await getDB()
-    const collection = db.collection('products');
+    const collection = db.collection('products2');
     const result = await collection.find().toArray();
     d
     return result

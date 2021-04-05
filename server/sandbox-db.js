@@ -1,6 +1,26 @@
 const dedicatedbrand = require('./sources/dedicatedbrand');
 const loom = require('./sources/loom');
+const adress = require('./sources/adressebrand')
 const {close,insertion,querydata} = require('./db');
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
 async function sandbox () {
     try {
@@ -22,6 +42,11 @@ async function sandbox () {
   
         products.push(results);
       }
+
+      adressepage = 'https://adresse.paris/630-toute-la-collection'
+      let adress_results = await adress.scrape(adressepage)
+      products.push(adress_results)
+
   
       pages = [
         'https://www.loom.fr/collections/hauts',
@@ -56,8 +81,10 @@ async function sandbox () {
       console.log(`👕 ${products.length} total of products found`);
   
       console.log('\n');
+
+      let shuffled_prod = shuffle(products);
   
-      const result = await insertion(products);
+      const result = await insertion(shuffled_prod);
   
       console.log(`💽  ${result.insertedCount} inserted products`);
   

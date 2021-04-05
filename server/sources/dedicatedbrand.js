@@ -40,7 +40,7 @@ const {'v5': uuidv5} = require('uuid');
     })
     .get();
 };
-//$ permet de pointer vers des éléments dans l'html en les passant en parametre
+
 
 function parsecategories (data) {
   let urls_cat = [];
@@ -57,12 +57,12 @@ function parsecategories (data) {
  * @param  {[type]}  url
  * @return {Array|null}
  */
-module.exports.scrape = async url => { //j'importe la fonction scrape a l'exterieur, donc dans sandbox.js, recup par le require
+module.exports.scrape = async url => { 
   const response = await axios(url);
-  const {data, status} = response; //on recup deux clés à partir de la reponse
+  const {data, status} = response; 
 //
-//data est le html de la page qu'on veut scraper (en general c'est la data renvouéee par l'api)
-  if (status >= 200 && status < 300) { //codes http
+
+  if (status >= 200 && status < 300) { 
     return parse(data);
   }
 
@@ -71,12 +71,11 @@ module.exports.scrape = async url => { //j'importe la fonction scrape a l'exteri
   return null;
 };
 
-module.exports.scrapecategories = async url => { //j'importe la fonction scrape a l'exterieur, donc dans sandbox.js, recup par le require
+module.exports.scrapecategories = async url => { 
   const response = await axios(url);
-  const {data, status} = response; //on recup deux clés à partir de la reponse
-//
-//data est le html de la page qu'on veut scraper (en general c'est la data renvouéee par l'api)
-  if (status >= 200 && status < 300) { //codes http
+  const {data, status} = response; 
+
+  if (status >= 200 && status < 300) { 
     return parsecategories(data);
   }
 
