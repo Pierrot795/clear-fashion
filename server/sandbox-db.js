@@ -3,6 +3,8 @@ const loom = require('./sources/loom');
 const adress = require('./sources/adressebrand')
 const {close,insertion,querydata} = require('./db');
 
+
+//shuffle the array to not have 3 successive blocs of products with the same brand 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -98,10 +100,10 @@ async function sandbox () {
     }
   }
 
+  //define a random past date (we couldn't retrieve the real addition dates of the products).
   function getRandomDate(from,to) {
     from = from.getTime();
     to = to.getTime();
     return new Date(from+ Math.random() * (to - from));
 }
-  //console.log(getRandomDate(new Date(1994,11,10),new Date(1995,11,10)))
   sandbox();

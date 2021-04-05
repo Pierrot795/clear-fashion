@@ -18,16 +18,18 @@ app.get('/', (request, response) => {
 });
 
 app.get('/products', async (req, res) => {
-  //response.send({'a': true});
   let page = parseInt(req.query.page);
   let size = parseInt(req.query.size);
+
+  //find at each index of the result is the first product we will display on a page.
   let start = (size*(page-1));
   console.log("start= "+start);
   console.log("end=" +start + size);
   let prod = []
   let counter = 0;
-  const result = await querydata({"price":{$ne:Number("Nan")}})
+  const result = await querydata({"price":{$ne:Number("Nan")}}) //we do not print a product if we do not know its price.
 
+  //to display the good number of products on each page
   for(i=start;i<start+size;i++){
       if(result[i] != null){
         console.log(i+' '+result[i].price)
@@ -41,6 +43,8 @@ app.get('/products', async (req, res) => {
   res.send({"success":true,"data":{"result":prod,"meta":{"currentPage":page,"pageCount":Math.round(result.length/size),"pageSize":size,"count":result.length}}});
 });
 
+//will not be used
+//was to retrieve products in function of their price, for a max price defined, and for a defined brand
 app.get('/products/search', async (req, res) => {
   let limit = 12
   if(req.query.limit){

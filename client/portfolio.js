@@ -37,24 +37,25 @@ const setCurrentProducts = ({result, meta}) => {
  * @param  {Number}  [size=12] - size of the page
  * @return {Object} //type of return for the following function
  */
-const fetchProducts = async (page = 1, size = 12) => { //appel d'API
+const fetchProducts = async (page = 1, size = 12) => { //call of my own API
   try {
     const response = await fetch(
       `https://clearfashion.vercel.app/products?page=${page}&size=${size}`
     );
-    const body = await response.json(); //decode la reponse pour avoir un objet JSON
+    const body = await response.json(); 
 
-    if (body.success !== true) { //si le decodage a pas marché 
+    if (body.success !== true) { 
       console.error(body);
       return {currentProducts, currentPagination};
     }
-    return body.data; //contient meta et results
+    return body.data; 
   } catch (error) {
     console.error(error);
     return {currentProducts, currentPagination};
   }
 };
 
+//format the date of addition of a product
 function stringDate(dateObj){
   dateObj = new Date(dateObj)
   console.log(dateObj)
@@ -65,6 +66,7 @@ function stringDate(dateObj){
   return newdate
 };
 
+//print the current date as "last update date"
 function rendercurrentDate(){
   let doc = document.getElementById("currentDate")
   let today = new Date();
@@ -169,7 +171,7 @@ const renderIndicators = (pagination, products) => {
 
 };
 
-
+//called when DOM loaded, and each time we call an event like a page changing, a new sort method chosen, a filter chosen...
 const render = (products, pagination) => {
   rendercurrentDate()
   if(chosenbrand){
@@ -224,6 +226,7 @@ const byBrand = (currentProducts, chosenbrand) => {
 
 }
 
+//used to clone an independant object (with can change one without changing the other)
 const clone = obj => {
   try{
     var copy = JSON.parse(JSON.stringify(obj));
