@@ -87,7 +87,7 @@ const renderProducts = products => {
       return `
       <div class="product" id=${product.uuid}>
         <span class="brand-text">${product.brand}</span>
-        <a class="shirt_text" href="${product.link}">${product.name}</a>
+        <a class="shirt_text"  href="${product.link}" target="_blank">${product.name}</a>
         <img class="tshirt_img" src = ${product.photo}>
         <span class="price_text">${product.price}€ </span>
         <span>${stringDate(product.date)}</span>
