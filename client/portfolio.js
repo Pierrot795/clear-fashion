@@ -1,4 +1,4 @@
-// Invoking strict mode https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#invoking_strict_mode
+
 'use strict';
 
 // current products on the page
@@ -11,8 +11,8 @@ let a;
 let brands = ['default'];
 
 // inititiqte selectors
-const selectShow = document.querySelector('#show-select'); //des que changement, change le nb de produits affichés sur la page
-const selectPage = document.querySelector('#page-select'); //document pointe sur index.html
+const selectShow = document.querySelector('#show-select'); 
+const selectPage = document.querySelector('#page-select'); 
 const selectSort = document.querySelector('#sort-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
@@ -20,14 +20,14 @@ const spanNbProductsDisp = document.querySelector('#nbProductsdisp');
 const selectBrands = document.querySelector('#brand-select');
 const p50 = document.querySelector('#p50');
 const p90 = document.querySelector('#p90');
-const p95 = document.querySelector('#p95');
+const mean = document.querySelector('#mean');
 /**
  * Set global value
  * @param {Array} result - products to display //param permits to describe a parameter which will be used in a function. like an assertion to a type for example
  * @param {Object} meta - pagination meta info
  */
-const setCurrentProducts = ({result, meta}) => { //params:la data du body de l'api => les stocke dans des tableaux
-  currentProducts = result; //a chaque appel de l'api je viens stocker les produits ici
+const setCurrentProducts = ({result, meta}) => { 
+  currentProducts = result; 
   currentPagination = meta;
 };
 
@@ -83,7 +83,7 @@ const renderProducts = products => {
   const fragment = document.createDocumentFragment();
   const div = document.createElement('div');
   const template = products
-    .map(product => { //affichage de tous les produits
+    .map(product => {
       return `
       <div class="product" id=${product.uuid}>
         <span>${product.brand}</span>
@@ -125,7 +125,7 @@ const renderBrands = (products,chosenbrand) => {
     });
     console.log("brands="+brands);
 
-    selectBrands.innerHTML = Array.from( //get each particular element in an array and apply a function on it.
+    selectBrands.innerHTML = Array.from( 
       brands, name => `<option value="${name}">${name}</option>`);
       for (let i = 0; i < brands.length;i++ ){
         if(brands[i] == chosenbrand){
@@ -136,8 +136,17 @@ const renderBrands = (products,chosenbrand) => {
 
     };
 
-  const percentileIndex = (products, percentile) =>
+  const percentiles = (products, percentile) =>
     Math.floor((products.length - 1) * percentile / 100) + 1;
+
+  const meanPrice = (products) =>{
+    let mean = 0;
+    products.forEach(function(product){
+      mean+=product.price;
+    });
+    return mean/products.length
+  }
+
 
 /**
  * Render page selector
@@ -151,10 +160,9 @@ const renderIndicators = (pagination, products) => {
 
   let sortedprod = clone(products);
   sortbypriceasc(sortedprod);
-  p50.innerHTML = sortedprod[percentileIndex(sortedprod,50)].price;
-  p90.innerHTML = sortedprod[percentileIndex(sortedprod,90)].price;
-  p95.innerHTML = sortedprod[percentileIndex(sortedprod,95)].price;
-
+  p50.innerHTML = sortedprod[percentiles(sortedprod,50)].price+"€";
+  p90.innerHTML = sortedprod[percentiles(sortedprod,90)].price+"€";
+  mean.innerHTML = Math.floor(meanPrice(sortedprod))+"€";
 
 };
 
@@ -253,8 +261,8 @@ const sorting = (sort, products) => {
  * @type {[type]}
  */
 selectShow.addEventListener('change', event => {
-  fetchProducts(currentPagination.currentPage, parseInt(event.target.value)) //la page demandée à l'api n'est pas forcément 1, et la size depend de l'event
-    .then(setCurrentProducts) //quand fetchproducts a terminé: on appelle setcurrentproducts
+  fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
+    .then(setCurrentProducts) 
     .then(() => render(currentProducts, currentPagination));
 });
 
@@ -277,7 +285,7 @@ selectBrands.addEventListener('change', event => {
 })
 
 document.addEventListener('DOMContentLoaded', () =>
-  fetchProducts() //retourne infos de l'api, result et meta
-    .then(setCurrentProducts) //quand fetchproducts a terminé: on appelle setcurrentproducts
-    .then(() => render(currentProducts, currentPagination)) //une fois setcurrentproducts appellée, j'appelle render
+  fetchProducts() 
+    .then(setCurrentProducts) 
+    .then(() => render(currentProducts, currentPagination))
 );
