@@ -86,9 +86,10 @@ const renderProducts = products => {
     .map(product => {
       return `
       <div class="product" id=${product.uuid}>
-        <span>${product.brand}</span>
-        <a href="${product.link}">${product.name}</a>
-        <span>${product.price}€ </span>
+        <span class="brand-text">${product.brand}</span>
+        <a class="shirt_text" href="${product.link}">${product.name}</a>
+        <img class="tshirt_img" src = ${product.photo}>
+        <span class="price_text">${product.price}€ </span>
         <span>${stringDate(product.date)}</span>
       </div>
     `;
@@ -97,7 +98,7 @@ const renderProducts = products => {
 
   div.innerHTML = template;
   fragment.appendChild(div);
-  sectionProducts.innerHTML = '<h2>Products</h2>';
+  sectionProducts.innerHTML = '<h2 id="title-products">Products</h2>';
   sectionProducts.appendChild(fragment);
 };
 
